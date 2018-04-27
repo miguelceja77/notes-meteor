@@ -20,3 +20,6 @@ shell-server@0.3.1            # Server-side component of the `meteor shell` comm
 accounts-password
 session
 fourseven:scss
+meteortesting:mocha
+cultofcoders:mocha
+react-meteor-data
