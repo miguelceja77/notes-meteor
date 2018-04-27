@@ -5,22 +5,7 @@ import { mount } from 'enzyme'
 
 import { NoteList } from './NoteList'
 import NoteListEmptyItem from './NoteListEmptyItem';
-
-const notes = [
-    {
-     _id: 'noteId1',
-     title: 'Test title',
-     body: '',
-     updatedAt: 0,
-     userId: 'userId1'
-    },{
-    _id: 'noteId2',
-    title: '',
-    body: 'ora batos locos',
-    updatedAt: 0,
-    userId: 'userId2'
-    }
-]
+import { notes } from '../fixtures/fixtures'
 
 if(Meteor.isClient){
     describe('NoteList', function(){
@@ -38,5 +23,5 @@ if(Meteor.isClient){
             expect(wrapper.find('NoteListEmptyItem').length).toBe(1)
         })
     })
-}
+} 
 

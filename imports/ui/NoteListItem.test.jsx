@@ -3,25 +3,38 @@ import expect from 'expect'
 import { Meteor } from 'meteor/meteor'
 import { mount } from 'enzyme'
 
-import NoteListItem from './NoteListItem'
+import { notes } from '../fixtures/fixtures'
+import {NoteListItem} from './NoteListItem'
 
 if(Meteor.isClient){
     describe('NoteListeItem', function(){
-        it('Poner el titulo y la fecha exacta', function(){
-            const title = 'Aquí va mi titulo'
-            const updatedAt = 1524849449065
-            const wrapper = mount(<NoteListItem note={{title, updatedAt}}/>)
+        let Session
 
-            expect(wrapper.find('h5').text()).toBe(title)
+        beforeEach(() => {
+            Session = {
+                set: expect.createSpy()
+            }
+        })
+        it('Poner el titulo y la fecha exacta', function(){
+            const wrapper = mount(<NoteListItem note={notes[0]} Session={Session}/>)
+
+            expect(wrapper.find('h5').text()).toBe(notes[0].title)
             expect(wrapper.find('p').text()).toBe('4/27/18')  
         })
 
         it('Si no tiene titulo ponerselo por defecto', function(){
-            const title = '';
-            const updatedAt = 1524849449065
-            const wrapper = mount(<NoteListItem note={{title, updatedAt}}/>)
+           const wrapper = mount(<NoteListItem note={notes[1]} Session={Session}/>)
+           
+           expect(wrapper.find('h5').text()).toBe('Nota sin titulo')
+        })
 
-            expect(wrapper.find('h5').text()).toBe('Nota sin titulo')
+        it('should call set on click', function(){
+            const wrapper = mount(<NoteListItem note={notes[0]} Session={Session}/>)
+
+            wrapper.find('div').simulate('click')
+
+            expect(Session.set).toHaveBeenCalledWith('selectedNoteId', notes[0]._id)
+
         })
     })
 }
