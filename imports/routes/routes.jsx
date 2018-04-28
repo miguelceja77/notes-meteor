@@ -45,14 +45,14 @@ export const globalOnEnter = (nextState) => {
 
 export const routes = (
   <Router history={history}>
-    <Switch>
-      <Route onEnter={globalOnEnter} onChange={globalOnChange}>
+    <Switch onEnter={globalOnEnter} onChange={globalOnChange}>
+      {/* <Route> */}
         <Route path="/" component={Login} exact={true} privacy="unauth"/>
         <Route path="/signup" component={Signup} privacy="unauth"/>
         <Route path="/dashboard" component={Dashboard} privacy="auth"/>
         <Route path="/dashboard/:id" component={Dashboard} privacy="auth" onEnter={onEnterNotePage} onLeave={onLeaveNotePage}/>
         <Route path="*" component={NotFound}/>
-      </Route>
+      {/* </Route> */}
     </Switch>
   </Router>
 );
