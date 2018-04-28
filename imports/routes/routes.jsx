@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Router, Switch, Route, withRouter } from 'react-router';
 import createHistory from 'history/createBrowserHistory';
+import { Session } from 'meteor/session'
 
 import Signup from '../ui/Signup';
 import Dashboard from '../ui/Dashboard';
@@ -26,11 +27,19 @@ const onEnterPrivatePage = () => {
   }
 }
 
+const onEnterNotePage = (nextState) => {
+  if (!Meteor.userId()) {
+    history.replace('/');
+  } else {
+    Session.set('selectedNoteId', nextState.params.id);
+  }
+}
+// console.log(nextState);
+
 export const onAuthChange = (isAuthenticated) => {
   const pathname = history.location.pathname;
   const isUnauthenticatedPage = unauthenticatedPages.includes(pathname);
   const isAuthenticatedPage = authenticatedPages.includes(pathname);
-  console.log('pathname: ', history.location.pathname);
   if (isUnauthenticatedPage && isAuthenticated) {
     history.replace('/dashboard');
   } else if (isAuthenticatedPage && !isAuthenticated) {
@@ -44,7 +53,7 @@ export const routes = (
       <Route path="/" component={Login} exact={true} onEnter={onEnterPublicPage}/>
       <Route path="/signup" component={Signup} onEnter={onEnterPublicPage}/>
       <Route path="/dashboard" component={Dashboard} onEnter={onEnterPrivatePage}/>
-      <Route path="/dashboard/:id" component={Dashboard} onEnter={onEnterPrivatePage}/>
+      <Route path="/dashboard/:id" component={Dashboard} onEnter={onEnterNotePage}/>
       <Route path="*" component={NotFound}/>
     </Switch>
   </Router>
