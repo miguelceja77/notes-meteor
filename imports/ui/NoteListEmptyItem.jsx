@@ -2,7 +2,7 @@ import React from 'react'
 
 const NoteListEmptyItem = () => {
     return (
-        <h1>Agraga tu primer nota y comienza la diversión</h1>
+        <p className="empty-item">Agraga tu primer nota y comienza la diversión</p>
     )
 }
 
